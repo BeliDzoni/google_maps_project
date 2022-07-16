@@ -8,7 +8,7 @@ from Pages.Requests import Requests
 @pytest.fixture(scope = "function")
 def setup(request):
     chromedriver_autoinstaller.install()
-    driver=webdriver.Chrome()
+    driver=webdriver.Chrome(desired_capabilities=chrome_capabilities())
     driver.get('https://www.google.com/maps/')
     driver.maximize_window()
     request.cls.driver = driver
