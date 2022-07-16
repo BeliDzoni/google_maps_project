@@ -8,7 +8,7 @@ from selenium.webdriver.chrome.options import Options
 
 @pytest.fixture(scope = "function")
 def setup(request, initialize_driver):
-    driver=initialize_driver
+    driver = initialize_driver
     request.cls.driver = driver
     page_object_init(request, driver)
     yield

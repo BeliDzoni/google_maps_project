@@ -116,7 +116,7 @@ class MainPage(BasePage):
 
     def open_details_of_routes(self, id):
         self._click((By.XPATH, "//div[contains(@id,'section-directions-trip-{}')]".format(id)))
-        if not self._is_displayed(self.main_page_locators.DETAIL_PAGE_OPEN):
+        if not self._is_displayed(self.main_page_locators.DETAIL_PAGE_OPEN, 1):
             self._click((By.XPATH, "//div[contains(@id,'section-directions-trip-{}')]".format(id)))
         assert self._is_displayed(self.main_page_locators.DETAIL_PAGE_OPEN)==True
 
