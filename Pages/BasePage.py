@@ -71,8 +71,8 @@ class BasePage:
     def _type(self, locator, input_text):
         self._wait_for_element(locator).send_keys(input_text)
 
-    def _is_displayed(self, locator):
-        return self._wait_for_element(locator).is_displayed()
+    def _is_displayed(self, locator, timeout=10):
+        return WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located(locator)).is_displayed()
 
     def _check_element_text(self, locator, text, timeout=10):
         try:

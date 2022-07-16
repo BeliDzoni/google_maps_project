@@ -35,7 +35,7 @@ class MainPageLocators():
     OPTIONS_AUTOMATIC_KM_CHECK_STATUS = (By.XPATH, '//input[@id="pane.directions-options-units-km"]')
 
     #DETAIL PAGE
-    DETAIL_PAGE_OPEN = (By.XPATH, "//div[@class='m6QErb DxyBCb kA9KIf dS8AEf']")
+    DETAIL_PAGE_OPEN = (By.XPATH, "//div[contains(@class,'m6QErb DxyBCb kA9KIf dS8AEf')]")
 
 class DetailsPageLocators():
     BACK_BTN = (By.XPATH, '//button[@class="ysKsp"]')

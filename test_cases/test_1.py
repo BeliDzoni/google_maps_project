@@ -1,5 +1,5 @@
 from test_cases.base_test import BaseTest
-
+import pytest
 
 class TestMainPage(BaseTest):
     def test_budapest_route(self):

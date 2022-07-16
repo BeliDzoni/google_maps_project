@@ -4,30 +4,23 @@ import chromedriver_autoinstaller
 from Pages.DetailsPage import DetailsPage
 from Pages.MainPage import MainPage
 from Pages.Requests import Requests
+from selenium.webdriver.chrome.options import Options
 
 @pytest.fixture(scope = "function")
-def setup(request):
-    chromedriver_autoinstaller.install()
-    driver=webdriver.Chrome(desired_capabilities=chrome_capabilities())
-    driver.get('https://www.google.com/maps/')
-    driver.maximize_window()
+def setup(request, initialize_driver):
+    driver=initialize_driver
     request.cls.driver = driver
     page_object_init(request, driver)
     yield
     driver.close()
     driver.quit()
 
-def page_object_init(request, driver):
-    request.cls.details_page = DetailsPage(driver)
-    request.cls.main_page = MainPage(driver)
-
-@pytest.fixture(scope = "function")
-def api_setup(request):
-    request.cls.request_api = Requests()
-
-def chrome_capabilities():
-    options = webdriver.ChromeOptions()
-    options.add_argument("--headless")
+@pytest.fixture(scope='function')
+def initialize_driver(headless):
+    options = Options()
+    print(headless)
+    if headless == 'y':
+        options.add_argument("--headless")
     options.add_argument("--disable-gpu")
     options.add_argument("--disable-extensions")
     options.add_argument("--lang=en-US")
@@ -40,11 +33,37 @@ def chrome_capabilities():
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-search-geolocation-disclosure")
-    capabilities = options.to_capabilities()
     prefs = {
         "translate_whitelists": {"your native language": "en, en_US"},
         "translate": {"enabled": "True"}
     }
     options.add_experimental_option("prefs", prefs)
-    return capabilities
+    chromedriver_autoinstaller.install()
+    driver = webdriver.Chrome(options=options)
+    driver.get('https://www.google.com/maps/')
+    driver.maximize_window()
+    return driver
+
+def page_object_init(request, driver):
+    request.cls.details_page = DetailsPage(driver)
+    request.cls.main_page = MainPage(driver)
+
+@pytest.fixture(scope = "function")
+def api_setup(request):
+    request.cls.request_api = Requests()
+
+
+@pytest.fixture(scope='session')
+def headless(request):
+    headless=request.config.getoption('--headless')
+    return headless
+
+def pytest_addoption(parser):
+    parser.addoption(
+        "--headless",
+        action='store',
+        default='y',
+        help="headless: y(default) if wanted to be executed in headless mode"
+    )
+
 
