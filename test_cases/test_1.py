@@ -17,7 +17,7 @@ class TestMainPage(BaseTest):
 
         self.main_page.select_route(longest_route[0])
 
-        self.main_page.open_one_of_routes(longest_route[0])
+        self.main_page.open_details_of_routes(longest_route[0])
         route_info = self.details_page.get_route_info()
         print(route_info)
 
