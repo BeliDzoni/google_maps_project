@@ -18,7 +18,6 @@ def setup(request, initialize_driver):
 @pytest.fixture(scope='function')
 def initialize_driver(headless):
     options = Options()
-    print(headless)
     if headless == 'y':
         options.add_argument("--headless")
     options.add_argument("--disable-gpu")
