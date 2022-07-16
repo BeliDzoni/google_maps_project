@@ -4,7 +4,7 @@ from test_cases.base_test import BaseTest
 class TestMainPage(BaseTest):
     def test_budapest_route(self):
         self.main_page.open_route()
-        self.main_page.search_route("Belgrade", "Budapest", 'car')
+        self.main_page.search_route('Budapest', 'Belgrade', 'car')
 
         options = self.main_page.set_route_options(high_way=True, units='km')
         print(options)
