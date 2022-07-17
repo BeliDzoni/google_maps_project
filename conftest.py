@@ -1,4 +1,7 @@
 import datetime
+
+import edgedriver_autoinstaller
+import geckodriver_autoinstaller
 import pytest
 from selenium import webdriver
 import chromedriver_autoinstaller
@@ -18,7 +21,7 @@ def setup(request, initialize_driver):
     driver.quit()
 
 @pytest.fixture(scope='function')
-def initialize_driver(headless):
+def initialize_driver(headless, browser):
     options = Options()
     if headless == 'y':
         options.add_argument("--headless")
@@ -39,8 +42,17 @@ def initialize_driver(headless):
         "translate": {"enabled": "True"}
     }
     options.add_experimental_option("prefs", prefs)
-    chromedriver_autoinstaller.install()
-    driver = webdriver.Chrome(options=options)
+
+    if browser=='chrome':
+        chromedriver_autoinstaller.install()
+        driver = webdriver.Chrome(options=options)
+    if browser=='firefox':
+        # geckodriver_autoinstaller.install()
+        driver = webdriver.Firefox(executable_path='E:\\chromedirver\\geckodriver.exe')
+    if browser=='edge':
+        # edgedriver_autoinstaller.install()
+        driver = webdriver.Edge(executable_path="E:\\chromedirver\\msedgedriver.exe")
+
     driver.get('https://www.google.com/maps/')
     driver.maximize_window()
     return driver
@@ -59,12 +71,23 @@ def headless(request):
     headless=request.config.getoption('--headless')
     return headless
 
+@pytest.fixture(scope='session')
+def browser(request):
+    browser=request.config.getoption('--browser')
+    return browser
+
 def pytest_addoption(parser):
     parser.addoption(
         "--headless",
         action='store',
         default='y',
         help="headless: y(default) if wanted to be executed in headless mode"
+    )
+    parser.addoption(
+        "--browser",
+        action='store',
+        default='chrome',
+        help="headless: chrome(default), firefox, safari, ie, edge"
     )
 
 def pytest_html_report_title(report):

@@ -31,7 +31,7 @@ class BasePage:
             return False
 
     def _is_aria_expanded(self, locator):
-        if self._get_element_attribute(locator, 'ariaExpanded')=='true':
+        if self._get_element_attribute(locator, 'ariaExpanded')=='true' or self._get_element_attribute(locator, 'aria-expanded')=='true':
             return True
         else:
             return False
