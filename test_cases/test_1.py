@@ -2,6 +2,9 @@ from test_cases.base_test import BaseTest
 import pytest
 
 class TestMainPage(BaseTest):
+    @pytest.mark.api
+    @pytest.mark.cicd
+    @pytest.mark.selenium
     def test_budapest_route(self):
         assert self.request_api.get_google_maps_status() < 400
         self.main_page.open_route()
