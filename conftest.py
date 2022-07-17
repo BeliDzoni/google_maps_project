@@ -2,8 +2,8 @@ import datetime
 import pytest
 from selenium import webdriver
 import chromedriver_autoinstaller
-import edgedriver_autoinstaller
-import geckodriver_autoinstaller
+# import edgedriver_autoinstaller
+# import geckodriver_autoinstaller
 from Pages.DetailsPage import DetailsPage
 from Pages.MainPage import MainPage
 from Pages.Requests import Requests
