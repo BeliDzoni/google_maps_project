@@ -125,8 +125,9 @@ class MainPage(BasePage):
         longest_route_distance=0
         longest_route = ''
         for key,value in all_routes.items():
-            if int(value['distance'].split()[0])>longest_route_distance:
-                longest_route_distance=int(value['distance'].split()[0])
+            distance_value = float(value['distance'].replace('.','').replace(',','.').split()[0])
+            if distance_value>longest_route_distance:
+                longest_route_distance=distance_value
                 longest_route = key
         return longest_route, longest_route_distance
 
