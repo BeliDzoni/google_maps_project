@@ -3,6 +3,7 @@ import pytest
 
 class TestMainPage(BaseTest):
     def test_budapest_route(self):
+        assert self.request_api.get_google_maps_status() < 400
         self.main_page.open_route()
         self.main_page.search_route('Budapest', 'Belgrade', 'car')
 

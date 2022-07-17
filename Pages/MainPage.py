@@ -112,7 +112,8 @@ class MainPage(BasePage):
         return routes_dict
 
     def select_route(self, id):
-        self._click((By.XPATH, "//div[contains(@id,'section-directions-trip-{}')]".format(id)))
+        if self._get_role_of_element((By.XPATH, "//div[contains(@id,'section-directions-trip-{}')]".format(id)))=='button':
+            self._click((By.XPATH, "//div[contains(@id,'section-directions-trip-{}')]".format(id)))
 
     def open_details_of_routes(self, id):
         self._click((By.XPATH, "//div[contains(@id,'section-directions-trip-{}')]".format(id)))

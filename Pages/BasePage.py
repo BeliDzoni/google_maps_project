@@ -33,6 +33,9 @@ class BasePage:
         else:
             return False
 
+    def _get_role_of_element(self, locator):
+        return self._get_element_attribute(locator, 'role')
+
     def _get_element_value(self,locator):
         return self._get_element_attribute(locator, 'value')
 

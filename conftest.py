@@ -1,3 +1,5 @@
+import datetime
+
 import pytest
 from selenium import webdriver
 import chromedriver_autoinstaller
@@ -5,6 +7,7 @@ from Pages.DetailsPage import DetailsPage
 from Pages.MainPage import MainPage
 from Pages.Requests import Requests
 from selenium.webdriver.chrome.options import Options
+from py.xml import html
 
 @pytest.fixture(scope = "function")
 def setup(request, initialize_driver):
@@ -66,3 +69,31 @@ def pytest_addoption(parser):
     )
 
 
+def pytest_html_report_title(report):
+    now = datetime.datetime.now()
+    report.title = "Test Resutlts ("'{}'.format(now.strftime("%Y-%m-%d %H:%M:%S"))+")"
+
+def pytest_html_results_table_header(cells):
+    cells.insert(3, html.th("Time"))
+    cells.pop()
+#
+def pytest_html_results_table_row(cells, report):
+    cells.insert(3, html.td(report.time))
+    cells.pop()
+
+@pytest.hookimpl(hookwrapper=True)
+def pytest_runtest_makereport(item):
+    pytest_html = item.config.pluginmanager.getplugin("html")
+    outcome = yield
+    report = outcome.get_result()
+    extra = getattr(report, "extra", [])
+    report.time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    if report.when == "call":
+        xfail = hasattr(report, "wasxfail")
+        if ((report.skipped and xfail) or (report.failed and not xfail)) and ('initialize_driver' in item.funcargs):
+            driver = item.funcargs['initialize_driver']
+            screenshot = driver.get_screenshot_as_base64()
+            html = '<div><img src= "data:image/png;base64, {}" alt=screenshot" style = "width:450px;height=200ph"'\
+                    'onclick="window.open("").document.write(this.src.outerHTML)" align="right"/></div>'.format(screenshot)
+            extra.append(pytest_html.extras.html(html))
+            report.extra=extra
