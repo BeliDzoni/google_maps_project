@@ -1,10 +1,9 @@
 import datetime
-
-import edgedriver_autoinstaller
-import geckodriver_autoinstaller
 import pytest
 from selenium import webdriver
 import chromedriver_autoinstaller
+import edgedriver_autoinstaller
+import geckodriver_autoinstaller
 from Pages.DetailsPage import DetailsPage
 from Pages.MainPage import MainPage
 from Pages.Requests import Requests
@@ -22,40 +21,48 @@ def setup(request, initialize_driver):
 
 @pytest.fixture(scope='function')
 def initialize_driver(headless, browser):
-    options = Options()
-    if headless == 'y':
-        options.add_argument("--headless")
-    options.add_argument("--disable-gpu")
-    options.add_argument("--disable-extensions")
-    options.add_argument("--lang=en-US")
-    options.add_argument("--arc-disable-locale-sync")
-    options.add_argument("--disable-web-security")
-    options.add_argument("--disable-popup-blocking")
-    options.add_argument("--ignore-certificate-errors")
-    options.add_argument("--ignore-ssl-errors")
-    options.add_argument("--window-size=1920,1080")
-    options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-search-geolocation-disclosure")
-    prefs = {
-        "translate_whitelists": {"your native language": "en, en_US"},
-        "translate": {"enabled": "True"}
-    }
-    options.add_experimental_option("prefs", prefs)
-
     if browser=='chrome':
+        options= driver_options(headless, Options(), browser)
         chromedriver_autoinstaller.install()
         driver = webdriver.Chrome(options=options)
     if browser=='firefox':
+        options = driver_options(headless, webdriver.FirefoxOptions(), browser)
         # geckodriver_autoinstaller.install()
-        driver = webdriver.Firefox(executable_path='E:\\chromedirver\\geckodriver.exe')
+        # executable_path='E:\\chromedirver\\geckodriver.exe'
+        driver = webdriver.Firefox(options=options)
     if browser=='edge':
+        options = driver_options(headless, webdriver.edge.options.Options(), browser)
         # edgedriver_autoinstaller.install()
-        driver = webdriver.Edge(executable_path="E:\\chromedirver\\msedgedriver.exe")
+        # executable_path="E:\\chromedirver\\msedgedriver.exe"
+        driver = webdriver.Edge(options=options)
 
     driver.get('https://www.google.com/maps/')
     driver.maximize_window()
     return driver
+
+def driver_options(headless, options, browser):
+    if headless == 'y':
+        options.add_argument("--headless")
+    if 'firefox' not in browser:
+        options.add_argument("--disable-gpu")
+        options.add_argument("--disable-extensions")
+        options.add_argument("--lang=en-US")
+        options.add_argument("--arc-disable-locale-sync")
+        options.add_argument("--disable-web-security")
+        options.add_argument("--disable-popup-blocking")
+        options.add_argument("--ignore-certificate-errors")
+        options.add_argument("--ignore-ssl-errors")
+        options.add_argument("--window-size=1920,1080")
+        options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-search-geolocation-disclosure")
+        prefs = {
+            "translate_whitelists": {"your native language": "en, en_US"},
+            "translate": {"enabled": "True"}
+        }
+        options.add_experimental_option("prefs", prefs)
+    return options
+
 
 def page_object_init(request, driver):
     request.cls.details_page = DetailsPage(driver)
