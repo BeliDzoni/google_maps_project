@@ -25,16 +25,18 @@ def initialize_driver(headless, browser):
         options= driver_options(headless, Options(), browser)
         chromedriver_autoinstaller.install()
         driver = webdriver.Chrome(options=options)
-    if browser=='firefox':
+    elif browser=='firefox':
         options = driver_options(headless, webdriver.FirefoxOptions(), browser)
         # geckodriver_autoinstaller.install()
         # executable_path='E:\\chromedirver\\geckodriver.exe'
         driver = webdriver.Firefox(options=options)
-    if browser=='edge':
+    elif browser=='edge':
         options = driver_options(headless, webdriver.edge.options.Options(), browser)
         # edgedriver_autoinstaller.install()
         # executable_path="E:\\chromedirver\\msedgedriver.exe"
         driver = webdriver.Edge(options=options)
+    else:
+        raise Exception('Not good --browser!')
 
     driver.get('https://www.google.com/maps/')
     driver.maximize_window()
@@ -43,19 +45,19 @@ def initialize_driver(headless, browser):
 def driver_options(headless, options, browser):
     if headless == 'y':
         options.add_argument("--headless")
+    options.add_argument("--disable-gpu")
+    options.add_argument("--disable-extensions")
+    options.add_argument("--lang=en-US")
+    options.add_argument("--arc-disable-locale-sync")
+    options.add_argument("--disable-web-security")
+    options.add_argument("--disable-popup-blocking")
+    options.add_argument("--ignore-certificate-errors")
+    options.add_argument("--ignore-ssl-errors")
+    options.add_argument("--window-size=1920,1080")
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-search-geolocation-disclosure")
     if 'firefox' not in browser:
-        options.add_argument("--disable-gpu")
-        options.add_argument("--disable-extensions")
-        options.add_argument("--lang=en-US")
-        options.add_argument("--arc-disable-locale-sync")
-        options.add_argument("--disable-web-security")
-        options.add_argument("--disable-popup-blocking")
-        options.add_argument("--ignore-certificate-errors")
-        options.add_argument("--ignore-ssl-errors")
-        options.add_argument("--window-size=1920,1080")
-        options.add_argument("--disable-dev-shm-usage")
-        options.add_argument("--no-sandbox")
-        options.add_argument("--disable-search-geolocation-disclosure")
         prefs = {
             "translate_whitelists": {"your native language": "en, en_US"},
             "translate": {"enabled": "True"}
