@@ -1,6 +1,7 @@
 from selenium.webdriver.common.by import By
 
-class MainPageLocators():
+
+class MainPageLocators:
     ROUTE_BUTTON = (By.XPATH, '//button[@id="hArJGc"]')
     ROUTE_MENU = (By.XPATH, '//*[@id="omnibox-directions"]')
     DESTINATION_FROM = (By.XPATH, '//div[@id="sb_ifc51"]/input')
@@ -9,16 +10,15 @@ class MainPageLocators():
     CHANGE_DIRECTION_BTN = (By.XPATH, '//div[@class="PLEQOe reverse"]//parent::button')
     SUGGESTED_ROUTES = (By.XPATH, "//div[contains(@id,'section-directions-trip')]")
 
+    # TRAVEL OPTIONS
+    AUTOMATO_ROUTE = (By.XPATH, "//img[contains(@src,'ic_directions_filled_blue900')]//parent::button")
+    CAR_ROUTE = (By.XPATH, "//img[contains(@src,'directions_car_grey800')]//parent::button")
+    PUBLIC_TRANSPORTATION_ROUTE = (By.XPATH, "//img[contains(@src,'directions_transit_grey800')]//parent::button")
+    WALK_ROUTE = (By.XPATH, "//img[contains(@src,'directions_walk_grey800')]//parent::button")
+    BIKE_ROUTE = (By.XPATH, "//img[contains(@src,'directions_bike_grey800')]//parent::button")
+    AIRPLANE_ROUTE = (By.XPATH, "//img[contains(@src,'flight_grey800')]//parent::button")
 
-    #TRAVEL OPTIONS
-    AUTOMATO_ROUTE=(By.XPATH, "//img[contains(@src,'ic_directions_filled_blue900')]//parent::button")
-    CAR_ROUTE=(By.XPATH, "//img[contains(@src,'directions_car_grey800')]//parent::button")
-    PUBLIC_TRANSPORTATION_ROUTE=(By.XPATH, "//img[contains(@src,'directions_transit_grey800')]//parent::button")
-    WALK_ROUTE=(By.XPATH, "//img[contains(@src,'directions_walk_grey800')]//parent::button")
-    BIKE_ROUTE=(By.XPATH, "//img[contains(@src,'directions_bike_grey800')]//parent::button")
-    AIRPLANE_ROUTE=(By.XPATH, "//img[contains(@src,'flight_grey800')]//parent::button")
-
-    #OPTIONS
+    # OPTIONS
     OPTIONS_BTN = (By.XPATH, "//button[contains(@class,'OcYctc fontTitleSmall XbJon')]")
     OPTIONS_AVOID_HIGH_WAY = (By.XPATH, '//input[@id="pane.directions-options-avoid-highways"]/parent::div')
     OPTIONS_AVOID_TOOLS = (By.XPATH, '//input[@id="pane.directions-options-avoid-tolls"]/parent::div')
@@ -34,9 +34,10 @@ class MainPageLocators():
     OPTIONS_AUTOMATIC_MILES_CHECK_STATUS = (By.XPATH, '//input[@id="pane.directions-options-units-miles"]')
     OPTIONS_AUTOMATIC_KM_CHECK_STATUS = (By.XPATH, '//input[@id="pane.directions-options-units-km"]')
 
-    #DETAIL PAGE
+    # DETAIL PAGE
     DETAIL_PAGE_OPEN = (By.XPATH, "//div[contains(@class,'m6QErb DxyBCb kA9KIf dS8AEf')]")
 
-class DetailsPageLocators():
+
+class DetailsPageLocators:
     BACK_BTN = (By.XPATH, '//button[@class="ysKsp"]')
     ROUTE_INFO = (By.XPATH, "//div[@class='PNEhTd Hk4XGb']")

@@ -1,6 +1,7 @@
 from test_cases.base_test import BaseTest
 import pytest
 
+
 class TestMainPage(BaseTest):
     @pytest.mark.api
     @pytest.mark.cicd
@@ -32,7 +33,3 @@ class TestMainPage(BaseTest):
         assert route_info['time'] == routes[longest_route[0]]['time']
         assert route_info['distance'] == routes[longest_route[0]]['distance']
         assert route_info['description'] == routes[longest_route[0]]['description']
-
-
-
-
