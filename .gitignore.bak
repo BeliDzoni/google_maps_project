@@ -1,6 +1,0 @@
-# Default ignored files
-/shelf/
-/workspace.xml
-*.html
-test_cases\report.html
-.pytest_cache
