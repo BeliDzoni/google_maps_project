@@ -19,7 +19,10 @@ class BasePage:
         return self._wait_for_elements(locator).text
 
     def _get_element_attribute(self,locator, attribute, timeout=10):
-        return WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located(locator)).get_attribute(attribute)
+        try:
+            return WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located(locator)).get_attribute(attribute)
+        except Exception:
+            raise Exception("Couldn't find element with locator: {} , for time period of: {} secounds\n".format(locator[1], timeout))
 
     def _is_option_checked(self, locator):
         if self._get_element_attribute(locator, 'checked')=='true':
@@ -41,11 +44,16 @@ class BasePage:
 
 
     def _wait_for_element(self, locator, timeout=10):
-        return WebDriverWait(self.driver, timeout).until(EC.visibility_of_element_located(locator))
+        try:
+            return WebDriverWait(self.driver, timeout).until(EC.visibility_of_element_located(locator))
+        except Exception:
+            raise Exception("Couldn't find element with locator: {} , for time period of: {} secounds\n".format(locator[1], timeout))
 
     def _wait_for_elements(self, locator, timeout=10):
-        return WebDriverWait(self.driver, timeout).until(EC.visibility_of_all_elements_located(locator))
-
+        try:
+            return WebDriverWait(self.driver, timeout).until(EC.visibility_of_all_elements_located(locator))
+        except Exception:
+            raise Exception("Couldn't find element with locator: {} , for time period of: {} secounds\n".format(locator[1], timeout))
 
     def _wait_for_animation(self, locator):
         position_1 = self._wait_for_element_to_be_visible(locator).location
@@ -84,23 +92,14 @@ class BasePage:
         try:
             WebDriverWait(self.driver, timeout).until(EC.text_to_be_present_in_element(locator, text))
             return True
-        except TimeoutError:
+        except:
             return False
 
     def _wait_for_element_to_be_visible(self, locator, timeout=10):
-        return WebDriverWait(self.driver, timeout).until(EC.visibility_of_element_located(locator))
-
-    def _scroll_to_element(self, locator_role, locator, timeout=120):
-        end_time = time.time() + timeout
-        element = self._wait_for_element_to_be_visible(*locator_role)
-        while True:
-            try:
-                return WebDriverWait(self.driver, 0).until(EC.visibility_of_element_located(locator)).click()
-            except TimeoutException:
-                element.send_keys(Keys.END)
-                if time.time() > end_time:
-                    break
-        raise Exception
+        try:
+            return WebDriverWait(self.driver, timeout).until(EC.visibility_of_element_located(locator))
+        except Exception:
+            raise Exception("Couldn't find element with locator: {} , for time period of: {} secounds\n".format(locator[1], timeout))
 
 class API:
     def __init__(self):
