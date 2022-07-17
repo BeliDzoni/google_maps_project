@@ -1,5 +1,4 @@
 import datetime
-
 import pytest
 from selenium import webdriver
 import chromedriver_autoinstaller
