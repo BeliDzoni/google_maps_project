@@ -3,3 +3,4 @@
 /workspace.xml
 *.html
 test_cases\report.html
+.pytest_cache
