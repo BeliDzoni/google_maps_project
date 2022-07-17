@@ -68,7 +68,6 @@ def pytest_addoption(parser):
         help="headless: y(default) if wanted to be executed in headless mode"
     )
 
-
 def pytest_html_report_title(report):
     now = datetime.datetime.now()
     report.title = "Test Resutlts ("'{}'.format(now.strftime("%Y-%m-%d %H:%M:%S"))+")"
