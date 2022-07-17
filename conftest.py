@@ -72,11 +72,11 @@ def pytest_html_report_title(report):
     report.title = "Test Resutlts ("'{}'.format(now.strftime("%Y-%m-%d %H:%M:%S"))+")"
 
 def pytest_html_results_table_header(cells):
-    cells.insert(3, html.th("Time"))
+    cells.insert(3, html.th("Time", class_="sortable time", col="time"))
     cells.pop()
 #
 def pytest_html_results_table_row(cells, report):
-    cells.insert(3, html.td(report.time))
+    cells.insert(3, html.td(report.time, class_="col-time"))
     cells.pop()
 
 @pytest.hookimpl(hookwrapper=True)
