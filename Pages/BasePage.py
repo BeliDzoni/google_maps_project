@@ -114,6 +114,7 @@ class BasePage:
 class API:
     def __init__(self):
         pass
+
     @staticmethod
     def _request(url):
         try:
