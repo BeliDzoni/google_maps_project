@@ -11,7 +11,7 @@ class MainPageLocators:
     SUGGESTED_ROUTES = (By.XPATH, "//div[contains(@id,'section-directions-trip')]")
 
     # TRAVEL OPTIONS
-    AUTOMATO_ROUTE = (By.XPATH, "//img[contains(@src,'ic_directions_filled_blue900')]//parent::button")
+    AUTOMATO_ROUTE = (By.XPATH, "//img[contains(@src,'ic_directions')]//parent::button")
     CAR_ROUTE = (By.XPATH, "//img[contains(@src,'directions_car')]//parent::button")
     PUBLIC_TRANSPORTATION_ROUTE = (By.XPATH, "//img[contains(@src,'directions_transit')]//parent::button")
     WALK_ROUTE = (By.XPATH, "//img[contains(@src,'directions_walk')]//parent::button")
