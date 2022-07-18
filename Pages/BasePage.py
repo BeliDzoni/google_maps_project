@@ -34,7 +34,8 @@ class BasePage:
             return False
 
     def _is_aria_expanded(self, locator):
-        if self._get_element_attribute(locator, 'ariaExpanded') == 'true' or self._get_element_attribute(locator, 'aria-expanded') == 'true':
+        if self._get_element_attribute(locator, 'ariaExpanded') == 'true' or \
+                self._get_element_attribute(locator, 'aria-expanded') == 'true':
             return True
         else:
             return False
@@ -85,8 +86,8 @@ class BasePage:
                 continue
         raise TimeoutException
 
-    def _type(self, locator, input_text):
-        self._wait_for_element(locator).send_keys(input_text)
+    def _type(self, locator, *input_text):
+        self._wait_for_element(locator).send_keys(*input_text)
 
     def _is_displayed(self, locator, timeout=10):
         try:
@@ -113,8 +114,8 @@ class BasePage:
 class API:
     def __init__(self):
         pass
-
-    def _request(self, url):
+    @staticmethod
+    def _request(url):
         try:
             response = requests.head(url)
             return url, response.status_code

@@ -26,9 +26,9 @@ class TestMainPage(BaseTest):
         route_info = self.details_page.get_route_info()
         print(route_info)
 
-        self.details_page.click_back_btn()
-
-        self.main_page.change_direction()
+        # self.details_page.click_back_btn()
+        #
+        # self.main_page.change_direction()
 
         assert route_info['time'] == routes[longest_route[0]]['time']
         assert route_info['distance'] == routes[longest_route[0]]['distance']

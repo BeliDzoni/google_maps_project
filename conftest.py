@@ -63,7 +63,8 @@ def driver_options(headless, options, browser):
     if 'firefox' not in browser:
         prefs = {
             "translate_whitelists": {"your native language": "en, en_US"},
-            "translate": {"enabled": "True"}
+            "translate": {"enabled": "True"},
+            "profile.default_content_setting_values.geolocation": 2
         }
         options.add_experimental_option("prefs", prefs)
     return options

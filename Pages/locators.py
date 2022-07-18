@@ -2,21 +2,21 @@ from selenium.webdriver.common.by import By
 
 
 class MainPageLocators:
-    ROUTE_BUTTON = (By.XPATH, '//button[@id="hArJGc"]')
+    ROUTE_BUTTON = (By.XPATH, '//img[contains(@src,"directions-2x")]//parent::button[@id="hArJGc"]')
     ROUTE_MENU = (By.XPATH, '//*[@id="omnibox-directions"]')
-    DESTINATION_FROM = (By.XPATH, '//div[@id="sb_ifc51"]/input')
-    DESTINATION_TO = (By.XPATH, '//div[@id="sb_ifc52"]/input')
+    DESTINATION_FROM = (By.XPATH, '//div[@id="directions-searchbox-0"]/*/div[contains(@id,"sb_ifc51")]/input')
+    DESTINATION_TO = (By.XPATH, '//div[@id="directions-searchbox-1"]/*/div[contains(@id,"sb_ifc52")]/input')
     SEARCH_ROUTE = (By.XPATH, '//*[@id="directions-searchbox-1"]/button[1]')
     CHANGE_DIRECTION_BTN = (By.XPATH, '//div[@class="PLEQOe reverse"]//parent::button')
     SUGGESTED_ROUTES = (By.XPATH, "//div[contains(@id,'section-directions-trip')]")
 
     # TRAVEL OPTIONS
     AUTOMATO_ROUTE = (By.XPATH, "//img[contains(@src,'ic_directions_filled_blue900')]//parent::button")
-    CAR_ROUTE = (By.XPATH, "//img[contains(@src,'directions_car_grey800')]//parent::button")
-    PUBLIC_TRANSPORTATION_ROUTE = (By.XPATH, "//img[contains(@src,'directions_transit_grey800')]//parent::button")
-    WALK_ROUTE = (By.XPATH, "//img[contains(@src,'directions_walk_grey800')]//parent::button")
-    BIKE_ROUTE = (By.XPATH, "//img[contains(@src,'directions_bike_grey800')]//parent::button")
-    AIRPLANE_ROUTE = (By.XPATH, "//img[contains(@src,'flight_grey800')]//parent::button")
+    CAR_ROUTE = (By.XPATH, "//img[contains(@src,'directions_car')]//parent::button")
+    PUBLIC_TRANSPORTATION_ROUTE = (By.XPATH, "//img[contains(@src,'directions_transit')]//parent::button")
+    WALK_ROUTE = (By.XPATH, "//img[contains(@src,'directions_walk')]//parent::button")
+    BIKE_ROUTE = (By.XPATH, "//img[contains(@src,'directions_bike')]//parent::button")
+    AIRPLANE_ROUTE = (By.XPATH, "//img[contains(@src,'flight')]//parent::button")
 
     # OPTIONS
     OPTIONS_BTN = (By.XPATH, "//button[contains(@class,'OcYctc fontTitleSmall XbJon')]")

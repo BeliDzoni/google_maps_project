@@ -1,6 +1,8 @@
 from selenium.webdriver.common.by import By
 from Pages.BasePage import BasePage
 from Pages.locators import MainPageLocators
+from selenium.webdriver.common.keys import Keys
+import time
 
 
 class MainPage(BasePage):
@@ -13,9 +15,11 @@ class MainPage(BasePage):
         self._wait_for_element(self.main_page_locators.ROUTE_MENU)
 
     def set_destination_from(self, destination):
+        self._type(self.main_page_locators.DESTINATION_FROM, Keys.CONTROL, 'A')
         self._type(self.main_page_locators.DESTINATION_FROM, destination)
 
     def set_destination_to(self, destination):
+        self._type(self.main_page_locators.DESTINATION_TO, Keys.CONTROL, 'A')
         self._type(self.main_page_locators.DESTINATION_TO, destination)
 
     def set_transport_option(self, transport_option):
@@ -117,7 +121,7 @@ class MainPage(BasePage):
 
     def open_details_of_routes(self, id):
         self._click((By.XPATH, "//div[contains(@id,'section-directions-trip-{}')]".format(id)))
-        if not self._is_displayed(self.main_page_locators.DETAIL_PAGE_OPEN, 1):
+        if not self._is_displayed(self.main_page_locators.DETAIL_PAGE_OPEN, 3):
             self._click((By.XPATH, "//div[contains(@id,'section-directions-trip-{}')]".format(id)))
         assert self._is_displayed(self.main_page_locators.DETAIL_PAGE_OPEN)
 
