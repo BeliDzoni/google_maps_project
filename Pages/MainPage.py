@@ -2,7 +2,6 @@ from selenium.webdriver.common.by import By
 from Pages.BasePage import BasePage
 from Pages.locators import MainPageLocators
 from selenium.webdriver.common.keys import Keys
-import time
 
 
 class MainPage(BasePage):
