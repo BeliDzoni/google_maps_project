@@ -10,17 +10,6 @@ from Pages.Requests import Requests
 from selenium.webdriver.chrome.options import Options
 from py.xml import html
 
-
-@pytest.fixture(scope="function")
-def setup(request, initialize_driver):
-    driver = initialize_driver
-    request.cls.driver = driver
-    page_object_init(request, driver)
-    yield
-    driver.close()
-    driver.quit()
-
-
 @pytest.fixture(scope='function')
 def initialize_driver(headless, browser):
     if browser == 'chrome':
@@ -42,7 +31,9 @@ def initialize_driver(headless, browser):
 
     driver.get('https://www.google.com/maps/')
     driver.maximize_window()
-    return driver
+    yield driver
+    driver.close()
+    driver.quit()
 
 
 def driver_options(headless, options, browser):
@@ -69,10 +60,10 @@ def driver_options(headless, options, browser):
         options.add_experimental_option("prefs", prefs)
     return options
 
-
-def page_object_init(request, driver):
-    request.cls.details_page = DetailsPage(driver)
-    request.cls.main_page = MainPage(driver)
+@pytest.fixture(scope="function")
+def page_object_init(request, initialize_driver):
+    request.cls.details_page = DetailsPage(initialize_driver)
+    request.cls.main_page = MainPage(initialize_driver)
 
 
 @pytest.fixture(scope="function")

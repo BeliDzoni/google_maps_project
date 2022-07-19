@@ -1,7 +1,8 @@
 import pytest
 
-@pytest.mark.usefixtures("setup")
+@pytest.mark.usefixtures("initialize_driver")
 @pytest.mark.usefixtures("api_setup")
+@pytest.mark.usefixtures("page_object_init")
 class BaseTest:
     pass
 
