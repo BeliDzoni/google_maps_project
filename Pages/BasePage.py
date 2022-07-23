@@ -110,6 +110,9 @@ class BasePage:
                 "Couldn't find element with locator: {} , for time period of: {} secounds\n".format(locator[1],
                                                                                                     timeout))
 
+    def highlight_web_element(self, locator):
+        self.driver.execute_script("arguments[0].style.border='2px ridge #33ffff'", self._wait_for_element_to_be_visible(locator))
+
 
 class API:
     def __init__(self):
