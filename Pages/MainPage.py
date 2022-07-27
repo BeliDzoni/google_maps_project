@@ -45,7 +45,7 @@ class MainPage(BasePage):
             assert self._is_aria_expanded(self.main_page_locators.OPTIONS_BTN)
         else:
             self._click(self.main_page_locators.OPTIONS_BTN, timeout=20, animation=True)
-            assert self._is_aria_expanded(self.main_page_locators.OPTIONS_BTN) == False
+            assert self._is_aria_expanded(self.main_page_locators.OPTIONS_BTN) is False
 
     def set_route_options(self, high_way=False, pay_tool=False, ferry=False, units='auto'):
         self.open_route_options(True)

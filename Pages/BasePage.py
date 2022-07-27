@@ -28,17 +28,11 @@ class BasePage:
                                                                                                     timeout))
 
     def _is_option_checked(self, locator):
-        if self._get_element_attribute(locator, 'checked') == 'true':
-            return True
-        else:
-            return False
+        return self._get_element_attribute(locator, 'checked') == 'true'
 
     def _is_aria_expanded(self, locator):
-        if self._get_element_attribute(locator, 'ariaExpanded') == 'true' or \
-                self._get_element_attribute(locator, 'aria-expanded') == 'true':
-            return True
-        else:
-            return False
+        return self._get_element_attribute(locator, 'ariaExpanded') == 'true' or \
+                self._get_element_attribute(locator, 'aria-expanded') == 'true'
 
     def _get_role_of_element(self, locator):
         return self._get_element_attribute(locator, 'role')
