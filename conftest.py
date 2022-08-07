@@ -41,9 +41,9 @@ def initialize_driver(headless, browser, remote):
     driver.get('https://www.google.com/maps/')
     driver.maximize_window()
     yield driver
-    driver.close()
-    if not remote == 'y':
-        driver.quit()
+    if not browser == 'firefox':
+        driver.close()
+    driver.quit()
 
 
 def driver_options(headless, options, browser):
