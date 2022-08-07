@@ -15,7 +15,8 @@ def initialize_driver(headless, browser):
     if browser == 'chrome':
         options = driver_options(headless, Options(), browser)
         chromedriver_autoinstaller.install()
-        driver = webdriver.Chrome(options=options)
+        # driver = webdriver.Chrome(options=options)
+        driver = webdriver.Remote(command_executor='http://127.0.0.1:4444/wd/hub', options=options)
     elif browser == 'firefox':
         options = driver_options(headless, webdriver.FirefoxOptions(), browser)
         # geckodriver_autoinstaller.install()
