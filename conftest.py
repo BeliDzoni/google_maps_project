@@ -11,22 +11,30 @@ from selenium.webdriver.chrome.options import Options
 from py.xml import html
 
 @pytest.fixture(scope='function')
-def initialize_driver(headless, browser):
+def initialize_driver(headless, browser, remote):
     if browser == 'chrome':
         options = driver_options(headless, Options(), browser)
-        chromedriver_autoinstaller.install()
-        # driver = webdriver.Chrome(options=options)
-        driver = webdriver.Remote(command_executor='http://127.0.0.1:4444/wd/hub', options=options)
+        # chromedriver_autoinstaller.install()
+        if remote=='y':
+            driver = webdriver.Remote(command_executor='http://127.0.0.1:4444/wd/hub', options=options)
+        else:
+            driver = webdriver.Chrome(options=options)
     elif browser == 'firefox':
         options = driver_options(headless, webdriver.FirefoxOptions(), browser)
         # geckodriver_autoinstaller.install()
         # executable_path='E:\\chromedirver\\geckodriver.exe'
-        driver = webdriver.Firefox(options=options)
+        if remote=='y':
+            driver = webdriver.Remote(command_executor='http://127.0.0.1:4444/wd/hub', options=options)
+        else:
+            driver = webdriver.Firefox(options=options)
     elif browser == 'edge':
         options = driver_options(headless, webdriver.edge.options.Options(), browser)
         # edgedriver_autoinstaller.install()
         # executable_path="E:\\chromedirver\\msedgedriver.exe"
-        driver = webdriver.Edge(options=options)
+        if remote=='y':
+            driver = webdriver.Remote(command_executor='http://127.0.0.1:4444/wd/hub', options=options)
+        else:
+            driver = webdriver.Edge(options=options)
     else:
         raise Exception('Not good --browser!')
 
@@ -34,7 +42,8 @@ def initialize_driver(headless, browser):
     driver.maximize_window()
     yield driver
     driver.close()
-    driver.quit()
+    if not remote == 'y':
+        driver.quit()
 
 
 def driver_options(headless, options, browser):
@@ -71,6 +80,10 @@ def page_object_init(request, initialize_driver):
 def api_setup(request):
     request.cls.request_api = Requests()
 
+@pytest.fixture(scope='session')
+def remote(request):
+    remote = request.config.getoption('--remote')
+    return remote
 
 @pytest.fixture(scope='session')
 def headless(request):
@@ -90,6 +103,12 @@ def pytest_addoption(parser):
         action='store',
         default='y',
         help="headless: y(default) if wanted to be executed in headless mode"
+    )
+    parser.addoption(
+        "--remote",
+        action='store',
+        default='y',
+        help="remote: y(default) if wanted to be executed remote"
     )
     parser.addoption(
         "--browser",
