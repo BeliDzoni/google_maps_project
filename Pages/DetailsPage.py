@@ -3,7 +3,7 @@ from Pages.locators import DetailsPageLocators
 
 
 class DetailsPage(BasePage):
-    def __init__(self, driver):
+    def __init__(self, driver, request):
         super().__init__(driver)
         self.details_page_locators = DetailsPageLocators()
 

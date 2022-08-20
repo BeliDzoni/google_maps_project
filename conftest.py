@@ -72,8 +72,8 @@ def driver_options(headless, options, browser):
 
 @pytest.fixture(scope="function")
 def page_object_init(request, initialize_driver):
-    request.cls.details_page = DetailsPage(initialize_driver)
-    request.cls.main_page = MainPage(initialize_driver)
+    request.cls.details_page = DetailsPage(initialize_driver, request)
+    request.cls.main_page = MainPage(initialize_driver, request)
 
 
 @pytest.fixture(scope="function")

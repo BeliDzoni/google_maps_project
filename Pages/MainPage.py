@@ -1,13 +1,13 @@
+from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 from Pages.BasePage import BasePage
 from Pages.locators import MainPageLocators
-from selenium.webdriver.common.keys import Keys
-
 
 class MainPage(BasePage):
-    def __init__(self, driver):
+    def __init__(self, driver, request):
         super().__init__(driver)
         self.main_page_locators = MainPageLocators()
+        self.details_page = request.cls.details_page
 
     def open_route(self):
         self._click(self.main_page_locators.ROUTE_BUTTON)
@@ -140,3 +140,6 @@ class MainPage(BasePage):
         self._click(self.main_page_locators.CHANGE_DIRECTION_BTN)
         assert self._get_element_value(self.main_page_locators.DESTINATION_FROM) == destination_to
         assert self._get_element_value(self.main_page_locators.DESTINATION_TO) == destination_from
+
+    def click_back_btn(self):
+        self.details_page.click_back_btn()
