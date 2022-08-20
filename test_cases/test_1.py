@@ -26,7 +26,7 @@ class TestMainPage(BaseTest):
         route_info = self.details_page.get_route_info()
         print(route_info)
 
-        # self.details_page.click_back_btn()
+        self.main_page.click_back_btn()
         #
         # self.main_page.change_direction()
 
