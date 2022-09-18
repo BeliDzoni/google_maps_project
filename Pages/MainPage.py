@@ -93,14 +93,16 @@ class MainPage(BasePage):
             self._click(self.main_page_locators.OPTIONS_AUTOMATIC_KM)
             assert self._is_option_checked(self.main_page_locators.OPTIONS_AUTOMATIC_KM_CHECK_STATUS)
 
-        self.open_route_options(False)
-
-        return {
+        options_dict = {
             'high_way': self._is_option_checked(self.main_page_locators.OPTIONS_AVOID_HIGH_WAY_CHECK_STATUS),
             'tool': self._is_option_checked(self.main_page_locators.OPTIONS_AVOID_TOOLS_CHECK_STATUS),
             'ferries': self._is_option_checked(self.main_page_locators.OPTIONS_AVOID_FERRIES_CHECK_STATUS),
             'units': units
         }
+
+        self.open_route_options(False)
+
+        return options_dict
 
     def get_suggested_routes(self):
         route_objects = self._wait_for_elements(self.main_page_locators.SUGGESTED_ROUTES)
