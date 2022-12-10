@@ -2,10 +2,10 @@ from selenium.webdriver.common.by import By
 
 
 class MainPageLocators:
-    ROUTE_BUTTON = (By.XPATH, '//img[contains(@src,"directions-2x")]//parent::button[@id="hArJGc"]')
+    ROUTE_BUTTON = (By.XPATH, '//button[@id="hArJGc"]')
     ROUTE_MENU = (By.XPATH, '//*[@id="omnibox-directions"]')
-    DESTINATION_FROM = (By.XPATH, '//div[@id="directions-searchbox-0"]/*/div[contains(@id,"sb_ifc51")]/input')
-    DESTINATION_TO = (By.XPATH, '//div[@id="directions-searchbox-1"]/*/div[contains(@id,"sb_ifc52")]/input')
+    DESTINATION_FROM = (By.XPATH, '//div[@id="directions-searchbox-0"]//div[contains(@id,"sb_ifc50")]/input')
+    DESTINATION_TO = (By.XPATH, '//div[@id="directions-searchbox-1"]//div[contains(@id,"sb_ifc51")]/input')
     SEARCH_ROUTE = (By.XPATH, '//*[@id="directions-searchbox-1"]/button[1]')
     CHANGE_DIRECTION_BTN = (By.XPATH, '//div[@class="PLEQOe reverse"]//parent::button')
     SUGGESTED_ROUTES = (By.XPATH, "//div[contains(@id,'section-directions-trip')]")

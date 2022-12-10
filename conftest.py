@@ -41,7 +41,7 @@ def initialize_driver(headless, browser, remote):
     driver.get('https://www.google.com/maps/')
     driver.maximize_window()
     yield driver
-    if not browser == 'firefox':
+    if browser != 'firefox':
         driver.close()
     driver.quit()
 
@@ -72,7 +72,6 @@ def driver_options(headless, options, browser):
 
 @pytest.fixture(scope="function")
 def page_object_init(request, initialize_driver):
-    request.cls.details_page = DetailsPage(initialize_driver, request)
     request.cls.main_page = MainPage(initialize_driver, request)
 
 
@@ -100,14 +99,12 @@ def browser(request):
 def pytest_addoption(parser):
     parser.addoption(
         "--headless",
-        action='store',
-        default='y',
+        action='store_false',
         help="headless: y(default) if wanted to be executed in headless mode"
     )
     parser.addoption(
         "--remote",
-        action='store',
-        default='y',
+        action='store_false',
         help="remote: y(default) if wanted to be executed remote"
     )
     parser.addoption(
