@@ -75,14 +75,14 @@ class MainPageLocators:
 
     def avoid_options(self, option):
         """
-        :param unit: highways, tools, ferries
+        :param unit: highways, tolls, ferries
         :return:
         """
         return (By.XPATH, f'//input[@id="pane.directions-options-avoid-{option}"]/parent::div')
 
     def avoid_options_check(self, option):
         """
-        :param unit: highways, tools, ferries
+        :param unit: highways, tolls, ferries
         :return:
         """
         return (By.XPATH, f'//input[@id="pane.directions-options-avoid-{option}"]')

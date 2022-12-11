@@ -51,24 +51,29 @@ class MainPage2(BasePage):
         self._click(self.main_page_locators.options_unit(unit))
         assert self._is_option_checked(self.main_page_locators.options_unit_check(unit))
 
-    def set_route_options(self, *args, unit='auto'):
+    def set_route_options(self, unit='auto', **kwargs):
         self.open_route_options(True)
-
-        for item in args:
-            if not self._is_option_checked(self.main_page_locators.avoid_options_check(item)):
-                self._click(self.main_page_locators.avoid_options(item))
+        options = {
+            'highways': False,
+            'tolls': False,
+            'ferries': False
+        }
+        options.update(kwargs)
+        for key, value in options.items():
+            if value:
+                if not self._is_option_checked(self.main_page_locators.avoid_options_check(key)):
+                    self._click(self.main_page_locators.avoid_options(key))
+            else:
+                if self._is_option_checked(self.main_page_locators.avoid_options_check(key)):
+                    self._click(self.main_page_locators.avoid_options(key))
         self.set_option_unit(unit)
-
-
         options_dict = {
             'highwas': self._is_option_checked(self.main_page_locators.OPTIONS_AVOID_HIGH_WAY_CHECK_STATUS),
-            'tools': self._is_option_checked(self.main_page_locators.OPTIONS_AVOID_TOOLS_CHECK_STATUS),
+            'tolls': self._is_option_checked(self.main_page_locators.OPTIONS_AVOID_TOOLS_CHECK_STATUS),
             'ferries': self._is_option_checked(self.main_page_locators.OPTIONS_AVOID_FERRIES_CHECK_STATUS),
             'units': unit
         }
-
         self.open_route_options(False)
-
         return options_dict
 
     def get_suggested_routes(self):
@@ -83,8 +88,7 @@ class MainPage2(BasePage):
         return routes_dict
 
     def select_route(self, id):
-        if self._get_role_of_element(self.main_page_locators.route_id(id)) == 'button':
-            self._click(self.main_page_locators.route_id(id))
+        self._click(self.main_page_locators.route_id(id))
 
     def open_details_of_routes(self, id):
         self._click(self.main_page_locators.route_id(id))
@@ -109,3 +113,4 @@ class MainPage2(BasePage):
         self._click(self.main_page_locators.CHANGE_DIRECTION_BTN)
         assert self._get_element_value(self.main_page_locators.DESTINATION_FROM) == destination_to
         assert self._get_element_value(self.main_page_locators.DESTINATION_TO) == destination_from
+        

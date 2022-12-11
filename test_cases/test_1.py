@@ -40,7 +40,7 @@ class TestMainPage(BaseTest):
         self.main_page2.open_route()
         self.main_page2.search_route(transport_option='car', dest_from='Budapest', dest_to='Belgrade')
 
-        options = self.main_page2.set_route_options('highways', unit='km')
+        options = self.main_page2.set_route_options(highways=True, unit='km')
         print(options)
 
         routes = self.main_page2.get_suggested_routes()
