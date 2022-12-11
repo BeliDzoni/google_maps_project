@@ -12,3 +12,7 @@ __pycache__
 .idea/
 *.iml
 *.xml
+.idea/google_maps_project.iml
+.idea/inspectionProfiles/profiles_settings.xml
+.idea/misc.xml
+.idea/vcs.xml
