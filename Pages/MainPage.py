@@ -4,6 +4,7 @@ from Pages.BasePage import BasePage
 from Pages.locators import MainPageLocators
 from Pages.DetailsPage import DetailsPage
 
+
 class MainPage(BasePage):
     def __init__(self, driver, request):
         super().__init__(driver)
@@ -42,10 +43,10 @@ class MainPage(BasePage):
 
     def open_route_options(self, status_open=True):
         if status_open:
-            self._click(self.main_page_locators.OPTIONS_BTN, timeout=20, animation=True)
+            self._click(self.main_page_locators.OPTIONS_BTN, timeout=20)
             assert self._is_aria_expanded(self.main_page_locators.OPTIONS_BTN)
         else:
-            self._click(self.main_page_locators.OPTIONS_BTN, timeout=20, animation=True)
+            self._click(self.main_page_locators.OPTIONS_BTN, timeout=20)
             assert self._is_aria_expanded(self.main_page_locators.OPTIONS_BTN) is False
 
     def set_route_options(self, high_way=False, pay_tool=False, ferry=False, units='auto'):

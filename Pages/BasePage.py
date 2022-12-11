@@ -65,20 +65,11 @@ class BasePage:
             else:
                 position_1 = position_2
 
-    def _click(self, locator, timeout=10, animation=False):
-        element = self._wait_for_element_to_be_visible(locator, timeout)
-        if animation:
-            self._wait_for_animation(locator)
-        for i in range(10):
-            if element and element.is_enabled():
-                try:
-                    return element.click()
-                except:
-                    continue
-            else:
-                time.sleep(1)
-                continue
-        raise TimeoutException
+    def _click(self, locator, timeout=10, scroll=True):
+        element = self._wait_for_element_to_be_clickable(locator, timeout)
+        if scroll:
+            self.driver.execute_script("arguments[0].scrollIntoView();", element)
+        element.click()
 
     def _type(self, locator, *input_text):
         self._wait_for_element(locator).send_keys(*input_text)
@@ -99,6 +90,13 @@ class BasePage:
     def _wait_for_element_to_be_visible(self, locator, timeout=10):
         try:
             return WebDriverWait(self.driver, timeout).until(EC.visibility_of_element_located(locator))
+        except Exception:
+            raise Exception(
+                "Couldn't find element with locator: {} , for time period of: {} secounds\n".format(locator[1],
+                                                                                                    timeout))
+    def _wait_for_element_to_be_clickable(self, locator, timeout=10):
+        try:
+            return WebDriverWait(self.driver, timeout).until(EC.element_to_be_clickable(locator))
         except Exception:
             raise Exception(
                 "Couldn't find element with locator: {} , for time period of: {} secounds\n".format(locator[1],

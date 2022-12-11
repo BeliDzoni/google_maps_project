@@ -37,6 +37,59 @@ class MainPageLocators:
     # DETAIL PAGE
     DETAIL_PAGE_OPEN = (By.XPATH, "//div[contains(@class,'m6QErb DxyBCb kA9KIf dS8AEf')]")
 
+    def destination_from_to(self):
+        """
+        :param field: str 'to' or 'from' depending on desired locator
+        :return: locator for specific field
+        """
+        dest_dict = {
+            'dest_from': (By.XPATH, '//div[@id="directions-searchbox-0"]//input'),
+            'dest_to': (By.XPATH, '//div[@id="directions-searchbox-1"]//input')
+        }
+        return dest_dict
+
+    def travel_option(self, option):
+        travel_dict = {
+            'automat': 'ic_directions',
+            'car': 'directions_car',
+            'public_transport': 'directions_transit',
+            'walk': 'directions_walk',
+            'bike': 'directions_bike',
+            'airplane': 'flight',
+        }
+        return (By.XPATH, f"//img[contains(@src,'{travel_dict[option]}')]//parent::button")
+
+    def options_unit(self, unit):
+        """
+        :param unit: auto, miles, km
+        :return:
+        """
+        return (By.XPATH, f'//input[@id="pane.directions-options-units-{unit}"]/following-sibling::label')
+
+    def options_unit_check(self, unit):
+        """
+        :param unit: auto, miles, km
+        :return:
+        """
+        return (By.XPATH, f'//input[@id="pane.directions-options-units-{unit}"]')
+
+    def avoid_options(self, option):
+        """
+        :param unit: highways, tools, ferries
+        :return:
+        """
+        return (By.XPATH, f'//input[@id="pane.directions-options-avoid-{option}"]/parent::div')
+
+    def avoid_options_check(self, option):
+        """
+        :param unit: highways, tools, ferries
+        :return:
+        """
+        return (By.XPATH, f'//input[@id="pane.directions-options-avoid-{option}"]')
+
+    def route_id(self, id):
+        return (By.XPATH, "//div[contains(@id,'section-directions-trip-{}')]".format(id))
+
 
 class DetailsPageLocators:
     BACK_BTN = (By.XPATH, '//button[@class="ysKsp"]')
