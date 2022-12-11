@@ -4,8 +4,9 @@
 *.html
 *.css
 *.bak
+*.xml
 test_cases\report.html
 .pytest_cache
 __pycache__
 *.log
-.idea
+.idea/
