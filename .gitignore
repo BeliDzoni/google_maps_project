@@ -10,3 +10,5 @@ test_cases\report.html
 __pycache__
 *.log
 .idea/
+*.iml
+*.xml
