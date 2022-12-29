@@ -2,7 +2,7 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 import time
-import requests
+
 
 
 class BasePage:
@@ -106,15 +106,4 @@ class BasePage:
         self.driver.execute_script("arguments[0].style.border='2px ridge #33ffff'", self._wait_for_element_to_be_visible(locator))
 
 
-class API:
-    def __init__(self):
-        pass
 
-    @staticmethod
-    def _request(url):
-        try:
-            response = requests.head(url)
-            return url, response.status_code
-        except Exception:  # SSL error, timeout, host is down, firewall block, etc.
-            print(url, 'ERROR')
-            return url, None

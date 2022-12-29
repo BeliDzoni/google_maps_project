@@ -1,10 +1,10 @@
 from selenium.webdriver import Keys
-from Pages.BasePage import BasePage
+from Pages.basePage import BasePage
 from Pages.locators import MainPageLocators
-from Pages.DetailsPage import DetailsPage
+from Pages.detailsPage import DetailsPage
 
 
-class MainPage2(BasePage):
+class MainPage(BasePage):
     def __init__(self, driver, request):
         super().__init__(driver)
         self.main_page_locators = MainPageLocators()
@@ -113,4 +113,3 @@ class MainPage2(BasePage):
         self._click(self.main_page_locators.CHANGE_DIRECTION_BTN)
         assert self._get_element_value(self.main_page_locators.DESTINATION_FROM) == destination_to
         assert self._get_element_value(self.main_page_locators.DESTINATION_TO) == destination_from
-        

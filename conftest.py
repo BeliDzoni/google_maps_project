@@ -2,12 +2,8 @@ import datetime
 import pytest
 from selenium import webdriver
 import chromedriver_autoinstaller
-# import edgedriver_autoinstaller
-# import geckodriver_autoinstaller
-from Pages.DetailsPage import DetailsPage
-from Pages.MainPage import MainPage
-from Pages.MainPage2 import MainPage2
-from Pages.Requests import Requests
+from Pages.mainPage import MainPage
+from Pages.apiRequests import Requests
 from selenium.webdriver.chrome.options import Options
 from py.xml import html
 
@@ -74,7 +70,6 @@ def driver_options(headless, options, browser):
 @pytest.fixture(scope="function")
 def page_object_init(request, initialize_driver):
     request.cls.main_page = MainPage(initialize_driver, request)
-    request.cls.main_page2 = MainPage2(initialize_driver, request)
 
 
 @pytest.fixture(scope="function")

@@ -1,4 +1,4 @@
-from Pages.BasePage import BasePage
+from Pages.basePage import BasePage
 from Pages.locators import DetailsPageLocators
 
 

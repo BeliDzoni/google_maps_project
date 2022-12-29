@@ -1,4 +1,4 @@
-from Pages.BasePage import API
+from Pages.baseAPI import API
 
 
 class Requests(API):
