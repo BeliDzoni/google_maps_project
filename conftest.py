@@ -1,37 +1,59 @@
 import datetime
 import pytest
-from selenium import webdriver
+import selenium
 import chromedriver_autoinstaller
 from Pages.mainPage import MainPage
 from Pages.apiRequests import Requests
+from Pages.appium.baseAppium import AppiumPage
+from appium.webdriver.appium_service import AppiumService
 from selenium.webdriver.chrome.options import Options
 from py.xml import html
+import appium
+
+
+@pytest.fixture(scope='function')
+def initialize_appium_driver():
+    desired_cap = {
+        "platformName": "Android",
+        "platformVersion": "11.0",
+        "deviceName": "tablet",
+        "automationName": "UiAutomator2",
+    }
+    appium_service = AppiumService()
+    appium_service.start(args=['--address', '127.0.0.1', '-p','4723', '--base-path','/wd/hub','--allow-insecure', 'adb_shell, get_server_logs'])
+    appium_driver = appium.webdriver.Remote( 'http://127.0.0.1:4723/wd/hub',
+        desired_capabilities=desired_cap
+    )
+    yield appium_driver
+    appium_driver.quit()
+    appium_service.stop()
+
 
 @pytest.fixture(scope='function')
 def initialize_driver(headless, browser, remote):
     if browser == 'chrome':
         options = driver_options(headless, Options(), browser)
-        if remote=='y':
-            driver = webdriver.Remote(command_executor='http://127.0.0.1:4444/wd/hub', options=options)
+        if remote == 'y':
+            driver = selenium.webdriver.Remote(command_executor='http://127.0.0.1:4444/wd/hub', options=options)
         else:
             chromedriver_autoinstaller.install()
-            driver = webdriver.Chrome(options=options)
+            driver = selenium.webdriver.Chrome(options=options)
     elif browser == 'firefox':
-        options = driver_options(headless, webdriver.FirefoxOptions(), browser)
+        options = driver_options(headless, selenium.webdriver.FirefoxOptions(), browser)
         # geckodriver_autoinstaller.install()
         # executable_path='E:\\chromedirver\\geckodriver.exe'
-        if remote=='y':
-            driver = webdriver.Remote(command_executor='http://127.0.0.1:4444/wd/hub', options=options)
+        if remote == 'y':
+            driver = selenium.webdriver.Remote(command_executor='http://127.0.0.1:4444/wd/hub', options=options)
         else:
-            driver = webdriver.Firefox(options=options)
+            driver = selenium.webdriver.Firefox(options=options)
     elif browser == 'edge':
-        options = driver_options(headless, webdriver.edge.options.Options(), browser)
+        options = driver_options(headless, selenium.webdriver.edge.options.Options(), browser)
         # edgedriver_autoinstaller.install()
         # executable_path="E:\\chromedirver\\msedgedriver.exe"
-        if remote=='y':
-            driver = webdriver.Remote(command_executor='http://127.0.0.1:4444/wd/hub', options=options)
+        if remote == 'y':
+            driver = selenium.webdriver.Remote(command_executor='http://127.0.0.1:4444/wd/hub', options=options)
         else:
-            driver = webdriver.Edge(options=options)
+            driver = selenium.webdriver.Edge(options=options)
     else:
         raise Exception('Not good --browser!')
 
@@ -67,19 +89,26 @@ def driver_options(headless, options, browser):
         options.add_experimental_option("prefs", prefs)
     return options
 
+
 @pytest.fixture(scope="function")
 def page_object_init(request, initialize_driver):
     request.cls.main_page = MainPage(initialize_driver, request)
+
+@pytest.fixture(scope="function")
+def appium_init(request, initialize_appium_driver):
+    request.cls.appium = AppiumPage(initialize_appium_driver, request)
 
 
 @pytest.fixture(scope="function")
 def api_setup(request):
     request.cls.request_api = Requests()
 
+
 @pytest.fixture(scope='session')
 def remote(request):
     remote = request.config.getoption('--remote')
     return remote
+
 
 @pytest.fixture(scope='session')
 def headless(request):

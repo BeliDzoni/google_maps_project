@@ -1,8 +1,8 @@
-from test_cases.base_test import BaseTest, ApiTest
+from test_cases.base_test import BaseTest, ApiTest, AppiumTest
 import pytest
 
 
-class TestMainPage(BaseTest, ApiTest):
+class TestMainPage(BaseTest):
     @pytest.mark.api
     @pytest.mark.cicd
     @pytest.mark.selenium
