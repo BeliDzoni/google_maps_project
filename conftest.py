@@ -17,7 +17,7 @@ def initialize_appium_driver():
         "platformName": "Android",
         "platformVersion": "11.0",
         "deviceName": "tablet",
-        "automationName": "UiAutomator2",
+        "automationName": "UiAutomator2"
     }
     appium_service = AppiumService()
     appium_service.start(args=['--address', '127.0.0.1', '-p','4723', '--base-path','/wd/hub','--allow-insecure', 'adb_shell, get_server_logs'])
