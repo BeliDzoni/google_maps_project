@@ -5,3 +5,4 @@ chromedriver-autoinstaller==0.3.1
 py==1.11.0
 pytest-html==3.2.0
 pytest-xdist==2.5.0
+Appium-Python-Client~=2.7.1

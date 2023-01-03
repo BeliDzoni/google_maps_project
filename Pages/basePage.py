@@ -4,7 +4,6 @@ from selenium.webdriver.support.wait import WebDriverWait
 import time
 
 
-
 class BasePage:
     def __init__(self, driver):
         self.driver = driver
@@ -32,7 +31,7 @@ class BasePage:
 
     def _is_aria_expanded(self, locator):
         return self._get_element_attribute(locator, 'ariaExpanded') == 'true' or \
-                self._get_element_attribute(locator, 'aria-expanded') == 'true'
+            self._get_element_attribute(locator, 'aria-expanded') == 'true'
 
     def _get_role_of_element(self, locator):
         return self._get_element_attribute(locator, 'role')
@@ -94,6 +93,7 @@ class BasePage:
             raise Exception(
                 "Couldn't find element with locator: {} , for time period of: {} secounds\n".format(locator[1],
                                                                                                     timeout))
+
     def _wait_for_element_to_be_clickable(self, locator, timeout=10):
         try:
             return WebDriverWait(self.driver, timeout).until(EC.element_to_be_clickable(locator))
@@ -103,7 +103,5 @@ class BasePage:
                                                                                                     timeout))
 
     def highlight_web_element(self, locator):
-        self.driver.execute_script("arguments[0].style.border='2px ridge #33ffff'", self._wait_for_element_to_be_visible(locator))
-
-
-
+        self.driver.execute_script("arguments[0].style.border='2px ridge #33ffff'",
+                                   self._wait_for_element_to_be_visible(locator))

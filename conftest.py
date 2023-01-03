@@ -11,22 +11,34 @@ from py.xml import html
 import appium
 
 
+@pytest.fixture(scope='session')
+def initialize_appium_server():
+    appium_service = AppiumService()
+    print('appium server started')
+    appium_service.start(args=['--address', '127.0.0.1', '-p', '4723', '--base-path', '/wd/hub', '--allow-insecure',
+                               'adb_shell, get_server_logs'])
+    yield appium_service
+    print('appium server stopped')
+    appium_service.stop()
+
+
 @pytest.fixture(scope='function')
-def initialize_appium_driver():
+def initialize_appium_driver(initialize_appium_server):
     desired_cap = {
         "platformName": "Android",
-        "platformVersion": "11.0",
+        # "platformVersion": "12.0",
         "deviceName": "tablet",
         "automationName": "UiAutomator2"
     }
-    appium_service = AppiumService()
-    appium_service.start(args=['--address', '127.0.0.1', '-p','4723', '--base-path','/wd/hub','--allow-insecure', 'adb_shell, get_server_logs'])
-    appium_driver = appium.webdriver.Remote( 'http://127.0.0.1:4723/wd/hub',
-        desired_capabilities=desired_cap
-    )
+
+    appium_service = initialize_appium_server
+    # appium_service.start(args=['--address', '127.0.0.1', '-p','4723',
+    # '--base-path','/wd/hub','--allow-insecure', 'adb_shell, get_server_logs'])
+    appium_driver = appium.webdriver.Remote('http://127.0.0.1:4723/wd/hub',
+                                            desired_capabilities=desired_cap
+                                            )
     yield appium_driver
     appium_driver.quit()
-    appium_service.stop()
 
 
 @pytest.fixture(scope='function')
@@ -93,6 +105,7 @@ def driver_options(headless, options, browser):
 @pytest.fixture(scope="function")
 def page_object_init(request, initialize_driver):
     request.cls.main_page = MainPage(initialize_driver, request)
+
 
 @pytest.fixture(scope="function")
 def appium_init(request, initialize_appium_driver):

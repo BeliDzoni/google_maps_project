@@ -1,8 +1,9 @@
 
-
+from datetime import datetime, timedelta
+from selenium.webdriver.support.wait import WebDriverWait
 from Pages.basePage import BasePage
 from Pages.appium.appium_locators import GoogleMapsLocators
-from appium.webdriver.extensions.android.nativekey import AndroidKey
+from selenium.webdriver.support import expected_conditions as EC
 
 
 class AppiumPage(BasePage):
@@ -12,12 +13,24 @@ class AppiumPage(BasePage):
         self.maps_locators = GoogleMapsLocators()
         print('Appium page init')
 
-    def _click(self, locator, timeout=30):
-        super()._click(locator, timeout=timeout, scroll=False)
+    def _click(self, locator, timeout=15, scroll=False):
+        super()._click(locator, timeout=timeout, scroll=scroll)
+
+    def _wait_for_element_to_be_clickable(self, locator, timeout=10):
+        time_end = datetime.now() + timedelta(timeout)
+        while True:
+            try:
+                return WebDriverWait(self.driver, timeout).until(EC.element_to_be_clickable(locator))
+            except Exception:
+                if time_end > datetime.now():
+                    raise Exception(
+                        "Couldn't find element with locator: {} , for time period of: {} secounds\n".format(locator[1],
+                                                                                                            timeout))
 
     def start_maps(self):
         self.close_maps()
         self.driver.activate_app("com.google.android.apps.maps")
+        self._wait_for_element(self.maps_locators.SEARCH_BOX)
 
     def close_maps(self):
         self.driver.terminate_app("com.google.android.apps.maps")
@@ -41,4 +54,3 @@ class AppiumPage(BasePage):
     def edit_text(self, text):
         self._type(self.maps_locators.EDIT_SEARCH_BOX, text)
         self._click(self.maps_locators.select_location(text))
-
