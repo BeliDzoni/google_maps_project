@@ -54,3 +54,10 @@ class AppiumPage(BasePage):
     def edit_text(self, text):
         self._type(self.maps_locators.EDIT_SEARCH_BOX, text)
         self._click(self.maps_locators.select_location(text))
+
+    def get_route_distance(self):
+        self._wait_for_elements(self.maps_locators.DISTANCE_VALUE)
+        time, distance, *irrelevant = self._get_elements_text(self.maps_locators.DISTANCE_VALUE)
+        distance = ''.join(filter(str.isdigit, distance))
+        #returns tuple of time and km
+        return time, distance

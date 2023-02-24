@@ -1,4 +1,6 @@
 import datetime
+import subprocess
+
 import pytest
 import selenium
 import chromedriver_autoinstaller
@@ -22,18 +24,31 @@ def initialize_appium_server():
     appium_service.stop()
 
 
-@pytest.fixture(scope='function')
-def initialize_appium_driver(initialize_appium_server):
-    desired_cap = {
-        "platformName": "Android",
-        # "platformVersion": "12.0",
-        "deviceName": "tablet",
-        "automationName": "UiAutomator2"
-    }
+def devices_list():
+    device_l = [element.split("\t")[0] for element in subprocess.getoutput("adb devices").split("\n")
+                if "device" in element and "List" not in element]
+    print(f"All devices are: {device_l}")
+    desired_caps = []
+    for i in range(len(device_l)):
+        device_uid = device_l.pop()
+        port = 8250 + i
+        desired_cap = {
+            "platformName": "Android",
+            "udid": device_uid,
+            # "deviceName": "tablet",
+            "automationName": "UiAutomator2",
+            "systemPort": port
+        }
+        desired_caps.append(desired_cap)
 
-    appium_service = initialize_appium_server
-    # appium_service.start(args=['--address', '127.0.0.1', '-p','4723',
-    # '--base-path','/wd/hub','--allow-insecure', 'adb_shell, get_server_logs'])
+    print(desired_caps)
+    return desired_caps
+
+
+@pytest.fixture(params=devices_list(), scope='function')
+def initialize_appium_driver(request):
+    desired_cap = request.param
+    print(desired_cap)
     appium_driver = appium.webdriver.Remote('http://127.0.0.1:4723/wd/hub',
                                             desired_capabilities=desired_cap
                                             )
@@ -78,7 +93,7 @@ def initialize_driver(headless, browser, remote):
 
 
 def driver_options(headless, options, browser):
-    if headless == 'y':
+    if headless:
         options.add_argument("--headless")
     options.add_argument("--disable-gpu")
     options.add_argument("--disable-extensions")
@@ -138,7 +153,8 @@ def browser(request):
 def pytest_addoption(parser):
     parser.addoption(
         "--headless",
-        action='store_false',
+        action='store_true',
+        default=False,
         help="headless: y(default) if wanted to be executed in headless mode"
     )
     parser.addoption(

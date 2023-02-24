@@ -15,7 +15,11 @@ class BasePage:
         return self._wait_for_element(locator).text
 
     def _get_elements_text(self, locator):
-        return self._wait_for_elements(locator).text
+        texts = []
+        elements = self._wait_for_elements(locator)
+        for element in elements:
+            texts.append(element.text)
+        return texts
 
     def _get_element_attribute(self, locator, attribute, timeout=10):
         try:

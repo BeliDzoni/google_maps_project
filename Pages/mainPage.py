@@ -91,7 +91,7 @@ class MainPage(BasePage):
         self._click(self.main_page_locators.route_id(id))
 
     def open_details_of_routes(self, id):
-        self._click(self.main_page_locators.route_id(id))
+        # self._click(self.main_page_locators.route_id(id))
         if not self._is_displayed(self.main_page_locators.DETAIL_PAGE_OPEN, 3):
             self._click(self.main_page_locators.route_id(id))
         assert self._is_displayed(self.main_page_locators.DETAIL_PAGE_OPEN)
@@ -106,6 +106,16 @@ class MainPage(BasePage):
                 longest_route_distance = distance_value
                 longest_route = key
         return longest_route, longest_route_distance
+
+    def get_shortest_route(self, all_routes):
+        shortest_route_distance = 999999999999999
+        shortest_route = ''
+        for key, value in all_routes.items():
+            distance_value = float(value['distance'].replace('.', '').replace(',', '.').split()[0])
+            if distance_value < shortest_route_distance:
+                shortest_route_distance = distance_value
+                shortest_route = key
+        return shortest_route, shortest_route_distance
 
     def change_direction(self):
         destination_from = self._get_element_value(self.main_page_locators.DESTINATION_FROM)
