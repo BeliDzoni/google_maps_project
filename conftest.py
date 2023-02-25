@@ -209,3 +209,12 @@ def pytest_runtest_makereport(item):
                 screenshot)
             extra.append(pytest_html.extras.html(html))
             report.extra = extra
+        if ((report.skipped and xfail) or (report.failed and not xfail)) and (
+                'initialize_appium_driver' in item.funcargs):
+            driver = item.funcargs['initialize_appium_driver']
+            screenshot = driver.get_screenshot_as_base64()
+            html = '<div><img src= "data:image/png;base64, {}" alt=screenshot" style = "width:120px;height=200ph"' \
+                   'onclick="window.open("").document.write(this.src.outerHTML)" align="right"/></div>'.format(
+                screenshot)
+            extra.append(pytest_html.extras.html(html))
+            report.extra = extra
