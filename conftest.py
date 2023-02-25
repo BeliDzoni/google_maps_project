@@ -16,11 +16,11 @@ import appium
 @pytest.fixture(scope='session')
 def initialize_appium_server():
     appium_service = AppiumService()
-    print('appium server started')
+    print(f'appium server started {datetime.datetime.now()}')
     appium_service.start(args=['--address', '127.0.0.1', '-p', '4723', '--base-path', '/wd/hub', '--allow-insecure',
                                'adb_shell, get_server_logs'])
     yield appium_service
-    print('appium server stopped')
+    print(f'appium server stopped {datetime.datetime.now()}')
     appium_service.stop()
 
 
@@ -49,9 +49,15 @@ def devices_list():
 def initialize_appium_driver(request):
     desired_cap = request.param
     print(desired_cap)
-    appium_driver = appium.webdriver.Remote('http://127.0.0.1:4723/wd/hub',
-                                            desired_capabilities=desired_cap
-                                            )
+    try:
+        appium_driver = appium.webdriver.Remote('http://127.0.0.1:4723/wd/hub',
+                                                desired_capabilities=desired_cap
+                                                )
+    except:
+        subprocess.call(f"npx kill-port {desired_cap['systemPort']}")
+        appium_driver = appium.webdriver.Remote('http://127.0.0.1:4723/wd/hub',
+                                                desired_capabilities=desired_cap
+                                                )
     yield appium_driver
     appium_driver.quit()
 
