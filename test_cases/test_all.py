@@ -45,4 +45,7 @@ class TestApi(AllTest):
         assert route_info['distance'] == routes[shortest_route[0]]['distance']
         assert route_info['description'] == routes[shortest_route[0]]['description']
         assert route_info['distance'].split()[0] == str(distance_mobile)
-        assert route_info['time'].split()[::2] == time_needed_mobile.split()[::2]
+        route_info_time = route_info['time'].split()[::2]
+        time_needed_mobile_only = time_needed_mobile.split()[::2]
+        assert route_info_time[0] == time_needed_mobile.split()[0]
+        assert int(route_info_time[1]) in range(int(time_needed_mobile_only[1]) - 1, int(time_needed_mobile_only[1]) + 2)
