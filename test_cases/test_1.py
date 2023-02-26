@@ -6,10 +6,11 @@ class TestMainPage(BaseTest):
     @pytest.mark.api
     @pytest.mark.cicd
     @pytest.mark.selenium
-    def test_budapest_route2(self):
+    @pytest.mark.parametrize("destination_from,destination_to", [('Novi Sad', "Budapest"), ("Belgrade", "Budapest")])
+    def test_budapest_route2(self, destination_from, destination_to):
         assert self.request_api.get_google_maps_status() < 400
         self.main_page.open_route()
-        self.main_page.search_route(transport_option='car', dest_from='Budapest', dest_to='Belgrade')
+        self.main_page.search_route(transport_option='car', dest_from=destination_from, dest_to=destination_to)
 
         options = self.main_page.set_route_options(highways=True, unit='km')
         print(options)
